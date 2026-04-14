@@ -120,9 +120,12 @@ function parseVlessUrl(url) {
         if (network === 'xhttp') {
             const xhttpOpts = {};
             const path = params.get('xhttp-path') || params.get('path');
-            const host = params.get('xhttp-host') || params.get('host');
+            const host = params.get('xhttp-host') || params.get('host') || params.get('sni');
             if (path) xhttpOpts.path = path;
-            if (host) xhttpOpts.host = host;
+            if (host) {
+                xhttpOpts.host = host;
+                xhttpOpts.headers = { Host: host };
+            }
             if (params.get('mode')) xhttpOpts.mode = params.get('mode');
             if (Object.keys(xhttpOpts).length > 0) {
                 proxy['xhttp-opts'] = xhttpOpts;
